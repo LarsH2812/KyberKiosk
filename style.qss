@@ -1,0 +1,57 @@
+QMainWindow{
+    background-color: #1F1F1F;
+    color: white;
+}
+
+QPushButton{
+    background-color: #1F1F1F;
+    border-style: none;
+    color: white;
+}
+QPushButton#btn_retpass{
+    background-color:1F1F1F;
+    color: red;
+}
+QPushButton:checked{
+    border: 0;
+    background-color: #6b1fe8;
+}
+QPushButton:hover{
+    background-color: #6b1fe8;
+}
+
+QLabel{
+    color :white;
+}
+QLabel#euroteken_4, QLabel#euroteken_5, QLabel#euroteken_6, QLabel#euroteken_prof{
+    background-color: white;
+    color: black;
+}
+
+QTableWidget{
+    background-color: #1F1F1F;
+    color: white;
+}
+
+QFrame#dev_line{
+    color: #00000000;
+}
+
+QTextBrowser{
+    background-color: #1f1F1F;
+    color: white;
+}
+
+QStackedWidget#pages{
+    border-left-style: solid;
+    border-left-color: white;
+    border-left-width: 200px;
+}
+QLabel#ERROR_PSWRD,QLabel#ERROR_STDNR,QLabel#ERROR_QRFLD,QLabel#ERROR_ITMFLD,QLabel#ERROR_ADDUSR,QLabel#ERROR_UPDUSR,QLabel#ERROR_VERIFY{
+    font-size: 22px;
+    color: red;
+}
+
+#stat_widget{
+    background-color: #1F1F1F;
+}
