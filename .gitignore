@@ -2,3 +2,5 @@
 KyberKiosk.sqlite
 KyberKiosk_reel.sqlite
 encrypt.py
+build
+dist
