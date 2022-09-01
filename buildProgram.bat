@@ -1,2 +1,4 @@
-cd C:\Users\Lars\Desktop\KyberKiosk
+cd ../../../../..
+d:
+cd D:\Documenten\Documents\GitHub\KyberKiosk
 python setup.py bdist_msi

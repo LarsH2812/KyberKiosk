@@ -127,7 +127,7 @@ class MainWindow:
         escShortcut.activated.connect(self.escShortcut)
         #initialize the shortcut for to enable the deletion of a row in the table
         delItemShortcut = QShortcut(self.ui.centralwidget)
-        delItemShortcut.setKey('Ctrl+Delete')
+        delItemShortcut.setKey('ctrl+Delete')
         delItemShortcut.activated.connect(self.deleteRow)
 
     def escShortcut(self):
@@ -205,7 +205,7 @@ class MainWindow:
             self.toBuy()
         else:
             self.ui.ERROR_QRFLD.setText('[INFO] qr Onbekend')
-        self.ui.line_stdnr.setFocus()
+            self.ui.line_stdnr.setFocus()
         
     def retrivePass(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.retPSWRD)
@@ -593,15 +593,16 @@ class MainWindow:
             'ID'    : str(self.ui.line_ID.text()),
             'NAME'  : str(self.ui.line_NAME.text()),
             'TITLE' : self.ui.line_TITLE.currentText(),
-            'AMOUNT': (self.ui.line_AMOUNT.text()),
+            'AMOUNT': format(float(self.ui.line_AMOUNT.text()),".2f"),
             'PASS'  : str(self.ui.line_PASSWORD.text()),
             'BLOCK' : True if self.ui.line_BLOCK.checkState() == Qt.Checked else False,
             'QR-code': str(self.ui.line_QR.text())
         }
-        query = f'SELECT qrCodes FROM Users WHERE qrCodes = \'{user["QR-code"]}\''
+        query = f'SELECT ID FROM Users WHERE qrCodes = \'{user["QR-code"]}\''
         cur.execute(query)
         result = cur.fetchone()
-        if result == None:
+        # print(str(result[0]) == user['ID'])
+        if (result == None) or (str(result[0])==user['ID']):
             query = f'UPDATE Users SET Name = \'{user["NAME"]}\', Title = \'{user["TITLE"]}\', Amount = {user["AMOUNT"]}, Password = \'{user["PASS"]}\', Block = {user["BLOCK"]}, qrCodes = \'{user["QR-code"]}\' WHERE ID = {user["ID"]}'
             cur.execute(query)
             KKdb.commit()

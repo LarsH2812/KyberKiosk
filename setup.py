@@ -3,6 +3,7 @@ from cx_Freeze import setup, Executable
 
 
 base = "Win32GUI" if sys.platform == "win32" else None
+path = sys.path
     
 
 directory_table = [
@@ -38,6 +39,7 @@ build_exe_options = {
         "QRcode.svg",
         "style.qss"
     },
+    "bin_path_includes": path,
     "include_msvcr": True
 }
 
@@ -54,8 +56,14 @@ executables = (
 )
 
 setup(  name = "KyberKiosk",
-        version = "1.2",
-        description = "De enige echte KyberKiosk",
+        version = "1.4",
+        description = """
+        De enige echte KyberKiosk
+        
+        Version update to 1.4:
+            -Changed how the change user details screen handles the double qr check, so it doesnt throw a false positive.
+        Version update to 1.3:
+            -Changed how the QR login works, so that it should not disrupt the workflow!""",
         executables=executables,
         options = {
             "build_exe":build_exe_options,
