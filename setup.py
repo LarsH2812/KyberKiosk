@@ -31,6 +31,7 @@ bdist_msi_options = {
         ("E_KyberKiosk_VAR","=-*KyberKiosk_VAR", "1", "TARGETDIR")
     ],
     "directories": directory_table,
+    "upgrade_code": "{309b2e34-2c2a-404b-a082-c1a0bebddbe4}",
 }
 
 build_exe_options = {
