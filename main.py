@@ -36,7 +36,7 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.login)
         self.ui.pages.setCurrentWidget(self.ui.buy_page)
         self.ui.Users.setCurrentWidget(self.ui.UserMenu_page)
-        self.ui.line_stdnr.setFocus()
+        self.ui.line_qr.setFocus()
         self.ui.buy_btn.setChecked(True)
 
         # initialize all connections, needed for a functional loginscreen
@@ -184,7 +184,10 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.pages.setCurrentWidget(self.ui.buy_page)
         self.ui.buy_btn.setChecked(True)
-        self.ui.line_stdnr.setFocus()
+        self.ui.line_qr.setFocus()
+        self.ui.line_stdnr.clear()
+        self.ui.line_pswrd.clear()
+        self.ui.line_qr.clear()
         self.clearTable(self.ui.cart_fld)
         self.ui.ERROR_ITMFLD.clear()
     #this fuction enables the use of qr codes, so that when a qr code is scanned, the output can be used.
@@ -205,7 +208,8 @@ class MainWindow:
             self.toBuy()
         else:
             self.ui.ERROR_QRFLD.setText('[INFO] qr Onbekend')
-            self.ui.line_stdnr.setFocus()
+            self.ui.line_qr.setFocus()
+            self.ui.line_qr.clear()
         
     def retrivePass(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.retPSWRD)
@@ -276,6 +280,7 @@ class MainWindow:
         total_bought = 0
         for i in range(len(res)):
             prodID = str(res[i][4])
+            print(res)
             if prodID not in prodCount:
                 prodCount[prodID] = int(res[i][2])
             else:
