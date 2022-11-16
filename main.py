@@ -2,6 +2,7 @@ import datetime
 import math
 import numpy as np
 import sys
+import time
 
 from PySide6.QtGui import QKeySequence, QShortcut, QPainter, QColor, QFont
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QTableWidgetItem, QHBoxLayout
@@ -15,6 +16,9 @@ import sqlite3
 
 KKdb = sqlite3.connect("KyberKiosk.sqlite")
 cur = KKdb.cursor()
+
+starttime = time.time()
+stoptime = time.time()
 
 currentUser = {
     'ID':0,
@@ -152,6 +156,7 @@ class MainWindow:
 
     #function that sends a query to the connected db and, checks if the filled in credentials are correct. If not, it gives adequate responce about the error.
     def login(self):
+        global starttime
         self.resetInfoLines()
         user = self.ui.line_stdnr.text()
         password = self.ui.line_pswrd.text()
@@ -164,6 +169,7 @@ class MainWindow:
                 if password == result[4]:
                     self.ui.stackedWidget.setCurrentIndex(1)
                     self.toBuy()
+                    starttime = time.time()
                     self.getCurrentUserInfo(result)
                     self.ui.line_stdnr.clear()
                     self.ui.line_pswrd.clear()
@@ -197,6 +203,7 @@ class MainWindow:
         self.ui.line_qr.setFocus()
     #this function checks the scanned qr code against the qr-codes in the database.
     def qrlogin(self):
+        global starttime
         qr = self.ui.line_qr.text()
         query = f"SELECT * FROM Users WHERE qrCodes = \'{qr}\'"
         cur.execute(query)
@@ -206,6 +213,7 @@ class MainWindow:
             self.getCurrentUserInfo(result)
             self.ui.stackedWidget.setCurrentIndex(1)
             self.toBuy()
+            starttime = time.time()
         else:
             self.ui.ERROR_QRFLD.setText('[INFO] qr Onbekend')
             self.ui.line_qr.setFocus()
@@ -453,7 +461,11 @@ class MainWindow:
             self.ui.totaal_fld.setText(format(tot,'.2f'))
 
     def pay(self):
+        global starttime
+        global stoptime
+        
         if self.ui.cart_fld.rowCount() != 0:
+            stoptime = time.time()
             genoeg = False
             tot = float(self.ui.totaal_fld.text())
             res = currentUser['amount'] - tot
@@ -494,8 +506,10 @@ class MainWindow:
                     '''
                     cur.executescript(query)
                 KKdb.commit()
-                self.ui.ERROR_ITMFLD.setText("[SUCCES] Producten zijn afgerekend!")
+                
+                self.ui.ERROR_ITMFLD.setText(f"[SUCCES] Producten zijn afgerekend!\ntime: {stoptime - starttime}")
                 self.clearTable(self.ui.cart_fld)
+                starttime = time.time()
             else:
                 self.ui.ERROR_ITMFLD.setText('[INFO] Er staat niet voldoende geld op je account!')
         else:
@@ -508,21 +522,26 @@ class MainWindow:
         self.ui.ProdList.setItem(rows, 6,QTableWidgetItem(str(True)))
     
     def updateProducts(self):
-        for i in range(self.ui.ProdList.rowCount()):
-            id      =       self.ui.ProdList.item(i, 0).text()
-            name    =       self.ui.ProdList.item(i, 1).text()
-            prijs   = float(self.ui.ProdList.item(i, 2).text())
-            stock   =   int(self.ui.ProdList.item(i, 3).text())
-            purch   =   int(self.ui.ProdList.item(i, 4).text())
-            date    =       datetime.date.today().strftime('%d/%m/%Y')
-            new     =  bool(self.ui.ProdList.item(i, 6).text())
+        try:
+            for i in range(self.ui.ProdList.rowCount()):
+                id      =       self.ui.ProdList.item(i, 0).text()
+                name    =       self.ui.ProdList.item(i, 1).text()
+                prijs   = float(self.ui.ProdList.item(i, 2).text())
+                stock   =   int(self.ui.ProdList.item(i, 3).text())
+                purch   =   int(self.ui.ProdList.item(i, 4).text())
+                date    =       datetime.date.today().strftime('%d/%m/%Y')
+                new     =  bool(self.ui.ProdList.item(i, 6).text())
 
-            if not new:
-                query = f'UPDATE Products SET Name = \'{name}\', Price = {prijs}, Stock = {stock}, Purchase = {purch}, Date = \'{date}\' WHERE ID = \'{id}\''
-            else:
-                query = f'INSERT INTO Products (ID, Name, Price, Stock, Purchase, Date) VALUES ({id},\'{name}\',{prijs},{stock},{purch},\'{date}\')'
-            cur.execute(query)
-        KKdb.commit()
+                if not new:
+                    query = f'UPDATE Products SET Name = \'{name}\', Price = {prijs}, Stock = {stock}, Purchase = {purch}, Date = \'{date}\' WHERE ID = \'{id}\''
+                else:
+                    query = f'INSERT INTO Products (ID, Name, Price, Stock, Purchase, Date) VALUES ({id},\'{name}\',{prijs},{stock},{purch},\'{date}\')'
+                cur.execute(query)
+            KKdb.commit()
+            self.ui.ERROR_PROD.setText("[SUCCES] De producten zijn geweizigd")
+        except Exception:
+            self.toProd()
+            self.ui.ERROR_PROD.setText("[ERROR] Het weizigen van de producten is niet gelukt")
 
     def deleteProdRow(self):
         selection = self.ui.ProdList.selectedItems()

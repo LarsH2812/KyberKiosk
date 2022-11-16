@@ -1346,7 +1346,7 @@
           <x>0</x>
           <y>0</y>
           <width>1260</width>
-          <height>875</height>
+          <height>815</height>
          </rect>
         </property>
         <property name="font">
@@ -1449,6 +1449,24 @@
           <string>New Column</string>
          </property>
         </column>
+       </widget>
+       <widget class="QLabel" name="ERROR_PROD">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>815</y>
+          <width>980</width>
+          <height>60</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>22</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="user_page">

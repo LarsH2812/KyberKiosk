@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'mainedited.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.1
+## Created by: Qt User Interface Compiler version 6.3.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -433,7 +433,7 @@ class Ui_MainWindow(object):
         __qtablewidgetitem11 = QTableWidgetItem()
         self.ProdList.setHorizontalHeaderItem(6, __qtablewidgetitem11)
         self.ProdList.setObjectName(u"ProdList")
-        self.ProdList.setGeometry(QRect(0, 0, 1260, 875))
+        self.ProdList.setGeometry(QRect(0, 0, 1260, 815))
         self.ProdList.setFont(font4)
         self.ProdList.setFrameShape(QFrame.NoFrame)
         self.ProdList.setFrameShadow(QFrame.Sunken)
@@ -444,6 +444,10 @@ class Ui_MainWindow(object):
         self.ProdList.horizontalHeader().setDefaultSectionSize(100)
         self.ProdList.horizontalHeader().setProperty("showSortIndicator", True)
         self.ProdList.verticalHeader().setVisible(False)
+        self.ERROR_PROD = QLabel(self.prod_page)
+        self.ERROR_PROD.setObjectName(u"ERROR_PROD")
+        self.ERROR_PROD.setGeometry(QRect(140, 815, 980, 60))
+        self.ERROR_PROD.setFont(font)
         self.pages.addWidget(self.prod_page)
         self.user_page = QWidget()
         self.user_page.setObjectName(u"user_page")
@@ -897,6 +901,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"Datum", None));
         ___qtablewidgetitem11 = self.ProdList.horizontalHeaderItem(6)
         ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"New Column", None));
+        self.ERROR_PROD.setText("")
         self.UpdateUser_btn.setText(QCoreApplication.translate("MainWindow", u"Opwaarderen", None))
         self.EditUser_btn.setText(QCoreApplication.translate("MainWindow", u"Bewerken", None))
         self.NewUser_btn.setText(QCoreApplication.translate("MainWindow", u"Nieuw", None))
